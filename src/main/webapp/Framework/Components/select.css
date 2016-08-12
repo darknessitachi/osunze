@@ -1,0 +1,21 @@
+/* simulate select css class */
+.zSelect { display:inline-block; *zoom: 1; *display: inline;
+vertical-align:middle; position:relative; white-space: nowrap; padding:0; margin:0;}
+.zSelect input,
+.zSelect .inputText { vertical-align:middle;  cursor:default;   background-repeat:no-repeat; background-position:0 0;}
+.zSelect .arrowimg { position:relative; left:-18px; margin-right:-19px; cursor:pointer; width:18px; height:20px; vertical-align: middle; background-repeat:no-repeat; background-position:0 0; }
+.zSelect .arrowimg { background-image:url(../Images/arrow.gif) }
+.zSelectEditable .inputText { border-color:#788994 #879aa6 #9aabb6; }
+.zSelectEditable .arrowimg { background-image:url(../Images/arrow_editab.gif) }
+.zSelectDisabled .inputText { border-color:#ccc; }
+.zSelectDisabled .arrowimg { background-image:url(../Images/arrow_disab.gif) }
+.zSelectMouseOver .inputText { border-color:#00ccff; }
+.zSelectMouseOver .arrowimg { background-image:url(../Images/arrow_over.gif) }
+.noBackground { background:transparent none; border:0 none; }
+.noBackground .arrowimg { background-image:url(../Images/arrow_inCell.gif) }
+.optgroup { position: absolute; z-index: 666; left: 0; top: 0; color: #336699; }
+.optgroup div { padding: 2px; overflow: auto; overflow-x: hidden; max-height: 300px; color: #336699; border: 1px solid #667788; background: url(../../Platform/Images/textarea_bg.gif) #F7FAFC repeat 0 2px; width: auto; z-index: 888; opacity: 0.9;}
+.optgroup a { cursor: default; display: block; text-align:left; color: #336699; white-space: nowrap; padding: 1px 3px 2px 6px; _padding: 0 3px 0 6px; height: 18px; min-width: 2em; text-decoration: none; }
+.optgroup a:hover,
+.optgroup a.ahover { color: #CCFFFF; text-decoration: none; background: url(../Images/optionbg_over.gif) #4499EE repeat-x center; }
+.optgroup a.ahover { background-image: none; }

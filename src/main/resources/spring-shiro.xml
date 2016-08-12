@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd ">
+
+	<!-- 隐式地向 Spring 容器注册 -->
+	<context:component-scan base-package="com.skycity">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="cacheManager" ref="cacheManager" />
+		<!-- <property name="authenticator" ref="authenticator" /> -->
+		<property name="sessionManager" ref="sessionManager"/>
+		<property name="realm" ref="myUserNameShiro"/>
+		<!-- <property name="realms">
+			<list>
+				<ref bean="myUserNameShiro" />
+				<ref bean="myEmailShiro" />
+				<ref bean="myPhoneShiro" />
+			</list>
+		</property> -->
+	</bean>
+
+	<!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroRealm.java -->
+	<bean id="myUserNameShiro" class="com.skycity.framework.interceptor.shiro.ShiroUserNameRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+		<property name="cachingEnabled" value="true" />
+		<property name="authenticationCachingEnabled" value="true" />
+		<property name="authenticationCacheName" value="authenticationCache" />
+		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authorizationCacheName" value="authorizationCache" />
+	</bean>
+	<bean id="myEmailShiro" class="com.skycity.framework.interceptor.shiro.ShiroEmailRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+	</bean>
+	<bean id="myPhoneShiro" class="com.skycity.framework.interceptor.shiro.ShiroPhoneRealm"></bean>
+
+	<bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+		<property name="authenticationStrategy">
+			<bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy" />
+		</property>
+	</bean>
+	<!-- Shiro主过滤器本身功能十分强大,其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行 -->
+	<!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/Login.jsp" />
+		<property name="unauthorizedUrl" value="/403.jsp" />
+		<property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
+	</bean>
+
+	<bean id="chainDefinitionSectionMetaSource"
+		class="com.skycity.framework.interceptor.ChainDefinitionSectionMetaSource">
+		<property name="filterChainDefinitions">
+			<value>
+				/Platform/*.jsp = anyRoles[sysadmin,manager]
+				/*.do = authc
+			</value>
+		</property>
+	</bean>
+	<bean id="anyRoles" class="com.skycity.framework.interceptor.RolesAuthorizationFilter" />
+
+	<bean id="cacheManager" class="com.skycity.framework.interceptor.SpringCacheManagerWrapper" >
+		 <property name="cacheManager" ref="springCacheManager"/>
+	 </bean>
+ 
+	<bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+    
+	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:config/shiro_ehcache.xml" />
+	</bean>
+	
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="com.skycity.framework.interceptor.RetryLimitHashedCredentialsMatcher">
+		<constructor-arg ref="cacheManager" />
+		<property name="hashAlgorithmName" value="sha-256" />
+		<property name="hashIterations" value="1024" />
+		<property name="storedCredentialsHexEncoded" value="true" />
+	</bean>
+	
+	<!-- 会话管理器 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	    <property name="globalSessionTimeout" value="1800000"/>
+	    <property name="deleteInvalidSessions" value="true"/>
+	    <property name="sessionValidationSchedulerEnabled" value="true"/>
+	   <!--  <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+	    <property name="sessionDAO" ref="sessionDAO"/>
+	    <property name="sessionIdCookieEnabled" value="true"/>
+	    <property name="sessionIdCookie" ref="sessionIdCookie"/>
+	</bean>
+	
+	<!-- 会话DAO -->
+	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+	    <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+	    <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+	</bean>
+
+	<bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+	
+	<!-- 会话验证调度器 -->
+     <!-- 全局的会话信息检测扫描信息间隔30分钟-->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+    
+	 <!-- 会话Cookie模板 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+	    <constructor-arg value="sid"/>
+	    <property name="httpOnly" value="true"/>
+	    <property name="maxAge" value="-1"/>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

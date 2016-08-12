@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="roles">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		r.roleId,
+		name,
+		roleKey,
+		description,
+		enable
+	</sql>
+	
+	<resultMap id="roleResultMap" type="Roles">
+		<id property="roleId" column="roleId"/>
+		<result property="name" column="rolename"/>
+		<collection property="permissions" ofType="Permission">
+			<id property="id" column="id"/>
+			<result property="name" column="name"/>
+			<result property="type" column="type"/>
+			<result property="resUrl" column="resUrl"/>
+		</collection>
+	</resultMap>
+
+	<!-- 根据登陆的用户名，找出当前用户的所有角色及相应的权限 -->
+	<select id="queryUserRoles" parameterType="String" resultMap="roleResultMap">
+		select r.roleid,r.name roleName,p.id,p.name,p.type,p.resurl from roles r left join user_role ur on ur.roleid=r.roleid left join user u 
+			on u.userid=ur.userid left join roles_permissions rp on r.roleid=rp.role_id left join permission p on p.id=rp.permission_id
+ 			where u.username=#{userName}
+	</select>
+	
+	<select id="queryRolesName" parameterType="String" resultType="String">
+		select name from roles r left join user_role ur on ur.roleid=r.roleid left join user u on u.userid=ur.userid where u.username=#{userName}
+	</select>
+	
+	<select id="query" resultType="Roles" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from roles r
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+	
+	<select id="count" parameterType="Roles" resultType="int">
+		select count(0) from roles
+	</select>
+	
+	<delete id="deletePermissioByRoleId" parameterType="int">
+		delete from roles_permissions where role_id=#{roleId}
+	</delete>
+	
+	<insert id="addAuth" parameterType="java.util.HashMap">
+		insert into roles_permissions(role_id,permission_id) values(#{roleId},#{permissionId})
+	</insert>
+</mapper>

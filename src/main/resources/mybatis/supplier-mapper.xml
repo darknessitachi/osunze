@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="supplier">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+	id,
+	name,
+	contacts,
+	phone,
+	email,
+	qq,
+	wx,
+	address,
+	website,
+	description
+	</sql>
+	<select id="query" resultType="Supplier" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from supplier
+		<where>
+		1 = 1
+			<if test="t.qrText != null and t.qrText != ''">
+				and (name like '%${t.qrText}%' or contacts like '%${t.qrText}%')
+			</if>
+		</where>
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="count" parameterType="Code" resultType="int">
+		select count(0) from supplier
+		<where>
+			1 = 1
+		</where>
+	</select>
+	
+	<insert id="add">
+		insert into supplier(name,contacts,phone,email,qq,wx,website,address) values(#{name},#{contacts},#{phone},#{email},#{qq},#{wx},#{webSite},#{address})
+	</insert>
+	
+	<update id="update" parameterType="Supplier">
+		update supplier set
+			name=#{name},
+			contacts=#{contacts},
+			phone=#{phone},
+			email = #{email},
+			qq  = #{qq},
+			wx = #{wx},
+			webSite = #{webSite},
+			address = #{address}
+		where id=#{id}
+	</update>
+	
+	<select id="getById" parameterType="String" resultType="Supplier">
+		select 
+		<include refid="selectId" />
+		from Supplier where id=#{id}
+	</select>
+	
+	<delete id="deleteById" parameterType="String">
+		delete from Supplier
+			where id=#{id}
+	</delete>
+	
+	<select id="queryAll" resultType="Supplier" parameterType="Supplier">
+		select
+		<include refid="selectId" />
+		from supplier
+	</select>
+</mapper>

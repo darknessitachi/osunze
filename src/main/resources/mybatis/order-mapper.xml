@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		i.id,orderDate,orderStatus,orderDescrption,orderCharge,orderTotalPrice
+	</sql>
+	
+	<resultMap id="orderMap" type="order">
+		<id property="id" column="id"/>
+		<result property="orderDate" column="orderDate"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="orderTotalPrice" column="orderTotalPrice"/>
+		<association property="customer" javaType="customer">
+            <result property="name" column="name" />
+            <result property="mobile" column="mobile" />
+        </association>  
+	</resultMap>
+	
+	<resultMap id="orderMap2" type="order">
+		<id property="id" column="id"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="orderTotalPrice" column="orderTotalPrice"/>
+		<result property="floorMaterial" column="floorMaterial"/>
+		<result property="shutterMaterial" column="shutterMaterial"/>
+		<result property="cabinetCabinetMaterial" column="cabinetCabinetMaterial"/>
+		<result property="seePlateMaterial" column="seePlateMaterial"/>
+		<result property="mesaColor" column="mesaColor"/>
+		<result property="doorColor" column="doorColor"/>
+		<result property="floorCabinetMaterial" column="floorCabinetMaterial"/>
+		<result property="topSealingMaterial" column="topSealingMaterial"/>
+		<result property="mesaBlock" column="mesaBlock"/>
+		<result property="otherMaterial" column="otherMaterial"/>
+		<result property="otherMaterial2" column="otherMaterial2"/>
+		<result property="handle" column="handle"/>
+		<association property="customer" javaType="customer">
+            <result property="name" column="name" />
+            <result property="mobile" column="mobile" />
+            <result property="address" column="address" />
+        </association>
+        <collection property="orderDetail" ofType="orderDetail">
+			<result property="goodsName" column="goodsName"/>
+			<result property="unit" column="unit"/>
+			<result property="count" column="count"/>
+			<result property="price" column="price"/>
+			<result property="amountOfPrice" column="amountOfPrice"/>
+		</collection>
+	</resultMap>
+	
+	<insert id="add" parameterType="order" useGeneratedKeys="true" keyProperty="id">
+		insert into OrderInfo(orderTotalPrice,orderStatus,floorMaterial,shutterMaterial,cabinetCabinetMaterial,seePlateMaterial,mesaColor,doorColor,
+				floorCabinetMaterial,topSealingMaterial,mesaBlock,otherMaterial,otherMaterial2,handle,customerId) 
+			values(#{orderTotalPrice},'0',#{floorMaterial},#{shutterMaterial},#{cabinetCabinetMaterial},#{seePlateMaterial},#{mesaColor},#{doorColor},
+				#{floorCabinetMaterial},#{topSealingMaterial},#{mesaBlock},#{otherMaterial},#{otherMaterial2},#{handle},#{customer.id})
+	</insert>
+	
+	<select id="query" resultMap="orderMap" parameterType="mapx">
+		select * from (select c.name,c.mobile,
+		<include refid="selectId" />
+		from OrderInfo i,customer c
+		<where>
+			i.customerid=c.id
+		</where>
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+	
+	<select id="count" parameterType="mapx" resultType="int">
+		select count(0) from OrderInfo
+		<where>
+			1 = 1
+		</where>
+	</select>
+	
+	<select id="getOrderById" resultMap="orderMap2" parameterType="int">
+		select a.*,d.goodsName,d.unit,d.count,d.price,d.amountOfPrice from (
+			select c.name,c.mobile,c.address,i.id,orderTotalPrice,orderStatus,orderDescrption,orderCharge,floorMaterial,shutterMaterial,cabinetCabinetMaterial,seePlateMaterial,
+			mesaColor,doorColor,floorCabinetMaterial,topSealingMaterial,mesaBlock,otherMaterial,otherMaterial2,handle
+			from OrderInfo i,customer c where i.customerid=c.id
+		) a left join orderdetail d on a.id=d.orderid where a.id=#{id}
+	</select>
+</mapper>

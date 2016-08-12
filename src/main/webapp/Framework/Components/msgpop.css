@@ -1,0 +1,27 @@
+/*msgpop*/
+.msgpop table td.topleft,
+.msgpop table td.topcenter,
+.msgpop table td.topright,
+.msgpop table td.bodyleft,
+.msgpop table td.center,
+.msgpop table td.bodyright,
+.msgpop table td.footerleft,
+.msgpop table td.footercenter,
+.msgpop table td.footerright { background-image: url(../Images/msgbox.png); background-repeat: no-repeat; background-position: left top; }
+.msgpop .iclose_btn{font-size: 1px; line-height: 1px; position: absolute; width: 17px; height: 17px;background: url(../Images/iclose_btn.png) no-repeat 0 0; top:-11px; right:-11px;}
+.msgpop .iclose_btn:hover{background: url(../Images/iclose_btn.png) no-repeat 0 -20px;}
+.msgpop table div.bodycontent { padding:6px; max-width:500px; word-break: break-all; word-wrap: break-word;}
+
+
+
+.squares { position: relative; margin:0 auto; }
+.squares table td.corner { width: 12px; height: 12px; font-size: 1px; line-height: 1px; }
+.squares table.tooltiptable { margin: 3px; }
+.squares table td.topcenter { background-position: top; }
+.squares table td.topright { background-position: right top; }
+.squares table td.bodyleft { background-position: left -12px; }
+.squares table td.center { background-position: center -12px; position: relative; }
+.squares table td.bodyright { background-position: right -12px; }
+.squares table td.footerleft { background-position: left bottom; }
+.squares table td.footercenter { background-position: bottom; }
+.squares table td.footerright { background-position: right bottom; }

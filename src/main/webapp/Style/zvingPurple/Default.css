@@ -1,0 +1,120 @@
+.loginPageBody{ background:url(loginbodybg.gif) repeat-x left center #d6dedf;}
+.LoginWrapbg{ background:url(loginimgbg.jpg) no-repeat center center; height:100%;}
+.leftColumnWrap {
+    background: url("col_border1.gif") repeat-y scroll right center #eaecf1;
+}
+.bluebg {
+    background: url("headBg.png") repeat-x scroll right top #DAE4ED;
+}
+
+.z-toolbar-overflow {
+    background: url("bar.gif") repeat-x scroll 0 0 transparent;
+}
+.z-body-index .z-toolbar-ct {
+    background: url("bar.gif") no-repeat scroll right -700px transparent;
+}
+.z-body-index .z-toolbar-overflow {
+    background: url("bar.gif") repeat-x scroll 0 -620px transparent;
+}
+.z-body-index .z-toolbar {
+    background: url("bar.gif") no-repeat scroll 0 -620px transparent;
+}
+.shadow-v {
+    background: url("shadow-v.png") repeat-y scroll 0 0 transparent;
+}
+.navigation a:first-child {
+    background: none;
+}
+.navigation a b {
+    background: none;
+}
+.navigation a:hover {
+    background: url("buttons.png") no-repeat scroll 0 0 transparent;
+}
+.navigation a:hover b {
+    background: url("buttons.png") no-repeat scroll right 0 transparent;
+    color: #8055b5;
+}
+.navigation a.current {
+    background: url("buttons.png") no-repeat scroll 0 -40px transparent;
+}
+.navigation a {
+    background: none;
+    color: #ddebf5;
+}
+.navigation a.current b {
+    background: url("buttons.png") no-repeat scroll right -40px transparent;
+    color: #3c2cbb;
+}
+
+.z-toolbar {
+    background: url("bar.gif") no-repeat scroll 0 -40px transparent;
+}
+.z-toolbar-ct{background-image: url("bar.gif");}
+.z-body-detail  .z-toolbar-ct {
+    background-image: url("bar.gif");
+}
+.z-tabpanel-overflow {
+    background: url("bar.gif") repeat-x scroll 0 -120px transparent;
+}
+.z-tab-current, .z-tab-current:hover {
+    background: url("buttons.png") no-repeat scroll 0 -180px transparent;
+}
+.z-tab, .z-tab b{color:#5e4d85;}
+.z-tab-current b, .z-tab-current:hover b {
+    background: url("buttons.png") no-repeat scroll right -180px transparent;
+    color:#ffffff;
+}
+.z-tab:hover b {
+    background: url("buttons.png") no-repeat scroll right -100px transparent;
+}
+.z-tab:hover {
+    background: url("buttons.png") no-repeat scroll 0 -100px transparent;
+}
+.z-btn, .z-btn b, .z-btn i {
+    color: #51497D;
+}
+.treeItem a, .treeItem p, .treeItem p.over, .treeItem p.current {
+    background: none repeat scroll 0 0 transparent;
+}
+.treeItem p.current {
+    background: url("bar.gif") repeat-x scroll 0 -470px transparent;
+}
+.sideNavigation a.current {
+    background: url("bar.gif") repeat-x scroll 0 -320px transparent;
+}
+/*.sideNavigation li {
+    background: url("bar.gif") repeat-x scroll 0 -240px transparent;
+}*/
+.sideNavigation .hasChild b {
+    background: url("sprites_vertical.gif") no-repeat scroll 0 0 transparent;
+}
+.sideNavigation .hasChild_expand {
+    background: url("bar.gif") repeat-x scroll 0 -280px transparent;
+}
+.sideNavigation .hasChild_expand b {
+    background: url("sprites_vertical.gif") no-repeat scroll 0 -30px transparent;
+}
+.sideNavigation a:hover {
+    background: url("bar.gif") repeat-x scroll 0 -400px transparent;
+}
+
+input[type="text"], input[type="password"] {
+    color: #6a8597;
+}
+.z-tabpanel {
+    background: url("bar.gif") no-repeat scroll 0 -160px transparent;
+}
+.z-tabpanel-ct{background: url("bar.gif") no-repeat scroll right -200px transparent }
+.z-body-detail .z-toolbar-overflow {
+    background: url("bar.gif") repeat-x scroll 0 -120px transparent;
+}
+.z-toolbar-flat .z-toolbar-overflow {
+    background: url("bar.gif") repeat-x scroll 0 -500px transparent;
+}
+.z-body-detail .z-toolbar {
+    background: url("bar.gif") no-repeat scroll 0 -160px transparent;
+}
+.z-body-detail .z-toolbar-flat {
+    background: url("bar.gif") no-repeat scroll 0 -540px transparent;
+}

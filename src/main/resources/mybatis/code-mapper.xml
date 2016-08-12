@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="code">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+	codeName,
+	parentCode,
+	(select r.codeType from code r where r.codeType = code.parentCode and r.parentCode='0') parentCodeName,
+	codeType,
+	status,
+	codeMemo,
+	system
+	</sql>
+	<!--resultType="Resources" 每返回一条结果封装到Resources里 -->
+	<select id="query" resultType="Code" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from code
+		<where>
+		1 = 1
+			<if test="t.codeName != null and t.codeName != ''">
+				and codeName like '%${t.codeName}%'
+			</if>
+			<if test="t.qrCode != null and t.qrCode != ''">
+				and (codeName like '%${t.qrCode}%' or codeType like '%${t.qrCode}%')
+			</if>
+			<if test="t.parentCode == null or t.parentCode == ''">
+				and parentCode = '0'
+			</if>
+			<if test="t.parentCode != null and t.parentCode != ''">
+				and parentCode = '${t.parentCode}'
+			</if>
+		</where>
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="count" parameterType="Code" resultType="int">
+		select count(0) from code
+		<where>
+			1 = 1
+			<if test="codeType != null and codeType != ''">
+				and codeType = '#{codeType}'
+			</if>
+			<if test="codeName != null and codeName != ''">
+				and codeName like '%${codeName}%'
+			</if>
+			<if test="qrCode != null and qrCode != ''">
+				and (codeName like '%${qrCode}%' or codeType like '%${qrCode}%')
+			</if>
+			<if test="parentCode == null or parentCode == ''">
+				and parentCode = '0'
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				and parentCode = '${parentCode}'
+			</if>
+		</where>
+	</select>
+	<select id="queryAll" parameterType="Code" resultType="Code">
+		select
+		<include refid="selectId" />
+		from code
+		<where>
+			1 = 1
+			<if test="parentCode != null and parentCode != ''">
+				and parentCode = '${parentCode}'
+			</if>
+		</where>
+	</select>
+	<select id="countByCode" parameterType="Code" resultType="int">
+		select count(0) from code
+		<where>
+			1 = 1
+			<if test="codeType != null and codeType != ''">
+				and codeType = '${codeType}'
+			</if>
+			<if test="parentCode == null or parentCode == ''">
+				and parentCode = '0'
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				and parentCode = '${parentCode}'
+			</if>
+		</where>
+	</select>
+	
+	<insert id="add">
+		insert into Code(codeName,codeType,codeMemo,parentCode) values(#{codeName},#{codeType},#{codeMemo},#{parentCode})
+	</insert>
+	
+	<update id="update" parameterType="Code">
+		update code set
+			codeName=#{codeName},
+			codeType=#{codeType},
+			codeMemo=#{codeMemo}
+		where codeType=#{codeType}
+		<if test="parentCode == null or parentCode == ''">
+			and parentCode = '0'
+		</if>
+		<if test="parentCode != null and parentCode != ''">
+			and parentCode = '${parentCode}'
+		</if>
+	</update>
+	
+	<select id="getCode" parameterType="Code" resultType="Code">
+		select 
+		<include refid="selectId" />
+		from Code where codeType=#{codeType}
+		<if test="parentCode == null or parentCode == ''">
+				and parentCode = '0'
+		</if>
+		<if test="parentCode != null and parentCode != ''">
+			and parentCode = '${parentCode}'
+		</if>
+	</select>
+	
+	<delete id="delCode" parameterType="Code">
+		delete from Code
+		<where>
+			 1=1
+			<if test="codeType != null and codeType != ''">
+					and codeType = '${codeType}'
+			</if>
+			<if test="parentCode == null or parentCode == ''">
+					and parentCode = '0'
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+					and parentCode = '${parentCode}'
+			</if>
+		</where>
+	</delete>
+</mapper>

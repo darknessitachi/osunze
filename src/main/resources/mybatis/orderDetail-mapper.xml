@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderdetail">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+	</sql>
+	
+	<insert id="add" parameterType="orderDetail">
+		insert into orderDetail(orderId,goodsName,unit,count,price,amountOfPrice) 
+			values(#{orderId},#{goodsName},#{unit},#{count},#{price},#{amountOfPrice})
+	</insert>
+	
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!-- 给实体Bean一个别名-->
+		<typeAlias type="com.skycity.entity.User" alias="User" />
+		<typeAlias type="com.skycity.entity.Roles" alias="Roles"/>
+		<typeAlias type="com.skycity.entity.Permission" alias="Permission"/>
+		
+		<typeAlias type="com.skycity.entity.Menu" alias="Menu"/>
+		<typeAlias type="com.skycity.entity.Code" alias="Code"/>
+		
+		<typeAlias type="com.skycity.entity.Schedule" alias="Schedule"/>
+		<typeAlias type="com.skycity.entity.Supplier" alias="Supplier"/>	<!-- 供应商 -->
+		<typeAlias type="com.skycity.entity.Goods" alias="Goods"/>	<!-- 商品 -->
+		<typeAlias type="com.skycity.entity.Customer" alias="customer"/>	<!-- 顾客 -->
+		<typeAlias type="com.skycity.entity.Order" alias="order"/>			<!-- 订单 -->
+		<typeAlias type="com.skycity.entity.OrderDetail" alias="orderDetail"/>			<!-- 订单详情 -->
+		
+		<typeAlias type="com.skycity.framework.collection.Mapx" alias="mapx"/>
+		<!--
+		<typeAlias type="com.skycity.entity.Roles" alias="Roles"/>
+		<typeAlias type="com.skycity.entity.UserLoginList" alias="UserLoginList" />
+		<typeAlias type="com.skycity.entity.ResourceRoles" alias="ResourceRoles"/>
+		<typeAlias type="com.skycity.entity.UserRoles" alias="UserRoles"/>
+		<typeAlias type="com.skycity.entity.ServerInfo" alias="ServerInfo"/>
+		
+		<typeAlias type="com.skycity.entity.Log" alias="Log"/>-->
+	</typeAliases>
+</configuration>

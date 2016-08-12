@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@include file="../../Include/Init.zhtml"%>
+<%@ taglib uri="controls" prefix="z"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title></title>
+<script src="../../Framework/Main.js"></script>
+<link href="../../Style/Default.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<z:init method="Message.initDetailDialog">
+	<form id="formMsg">
+	<table width="100%" height="100%" border="0" cellpadding="0"
+		cellspacing="0">
+		<tr>
+			<td align="center" valign="top">
+			<table width="96%" border="1" cellpadding="4" cellspacing="0" bordercolor="#e3e3e3"
+				style="margin:10px auto">
+				<tr>
+					<td width="80" height="28" align="right" valign="middle" class="tdgrey1"><input
+						type="hidden" id="ID" name="ID" value="${ID}"> <input
+						type="hidden" id="Type" name="Type" value="${Type}">
+						<z:if condition="${UserType}=='收'" ><z:lang id="Platform.接收人接收人">接收人</z:lang>
+						</z:if> 
+						<z:else><z:lang id="Platform.Sender">发送人</z:lang></z:else>：
+				    </td>
+					<td align="left" valign="middle" class="tdgrey2">${FromUser}${ToUser}</td>
+				</tr>
+				<tr>
+					<td height="28" align="right" valign="middle" class="tdgrey1"><z:lang id="Platform.SendTime">发送时间</z:lang>：</td>
+					<td align="left" valign="middle" class="tdgrey2">${AddTime}</td>
+				</tr>
+				<tr>
+					<td height="28" align="right" valign="middle" class="tdgrey1"><z:lang id="Platform.Title">标题</z:lang>：</td>
+					<td align="left" valign="middle" class="tdgrey2">${Subject}</td>
+				</tr>
+				<tr>
+					<td height="28" align="right" valign="middle" class="tdgrey1"><z:lang id="Platform.Content">内容</z:lang>：</td>
+					<td align="left" valign="middle" class="tdgrey2">${Content}</td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+	</table>
+	</form>
+</z:init>
+</body>
+</html>

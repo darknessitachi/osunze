@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@include file="../../Include/Init.zhtml"%>
+<%@ taglib uri="controls" prefix="z"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title></title>
+<link href="../../Style/Default.css" rel="stylesheet" type="text/css" />
+
+<script src="../../Framework/Main.js"></script>
+<script>
+function add(){
+	var diag =new Dialog();
+	diag.width = 500;
+	diag.height = 220;
+	diag.title = "<z:lang id='Platform.AddMessage'>新建消息</z:lang>";
+	diag.url = "MessageDialog.zhtml";
+	diag.onLoad = function(){
+		$DW.$('#ToUser').focus();
+	};
+	diag.onOk = addSave
+	diag.show();
+}
+
+function reply(){
+    var dt = DataGrid.getSelectedData("dg1");
+	var dr = dt.Rows;
+	if(!dt||dr.length==0){
+		Dialog.alert("<z:lang id="Platform.SelectMessageFirst">请先选择要回复的信息</z:lang>！");
+		return;
+	}
+	var diag =new Dialog();
+	diag.width = 400;
+	diag.height = 180;
+	diag.title = "<z:lang id='Platform.Reply'>回复</z:lang>";
+	diag.url = "MessageReplyDialog.zhtml?ID="+dr[0].get("ID");
+	diag.onOk = replySave;
+	diag.show();
+}
+
+function addSave(){
+	if($DW.Verify.hasError()){
+		return;
+  }
+  if(!$DW.$V("#ToUser")&&!$DW.$V("#ToRole")){
+  	Dialog.alert("<z:lang id='Platform.UserAndRoleEmpty'>接收用户和接收角色不能都为空</z:lang>!");
+  	return;
+  }
+	var dc = Form.getData($DW.$F("formMsg"));
+	Server.sendRequest("Message.add",dc,function(response){
+		if(response.Status==1){
+			DataGrid.setParam("dg1",Constant.PageIndex,0);
+			DataGrid.loadData("dg1");
+			$D.close();
+		}else{
+		   Dialog.alert(response.Message);
+		}
+	})
+}
+
+function replySave(){
+	if($DW.Verify.hasError()){
+		return;
+    }
+	var dc = Form.getData($DW.$F("reply"));
+	Server.sendRequest("Message.reply",dc,function(response){
+		if(response.Status==1){
+			DataGrid.setParam("dg1",Constant.PageIndex,0);
+			DataGrid.loadData("dg1");
+			Dialog.alert(response.Message);
+			$D.close();
+		}else{
+		   Dialog.alert(response.Message);
+		}
+	})
+}
+
+function messageHistory(){
+	var diag =new Dialog();
+	diag.width = 800;
+	diag.height = 400;
+	diag.title = "<z:lang id='Platform.SendedMessage'>已发消息</z:lang>";
+	diag.url = "MessageHistory.zhtml";
+	diag.show();
+ 	diag.cancelText="<z:lang id='Common.Close'>关闭</z:lang>";
+}
+
+function messageDetail(fromUser){
+	var arr = DataGrid.getSelectedValue("dg1");
+	if(!arr||arr.length==0){
+		Dialog.alert("<z:lang id='Common.PleaseSelectRowFirst'>请先选择一条记录</z:lang>");
+		return;
+	}
+	var diag =new Dialog();
+	diag.width = 500;
+	diag.height = 250;
+	diag.title = "<z:lang id='Common.View'>查看</z:lang>";
+	diag.url = "MessageDetailDialog.zhtml?ID="+arr[0];
+	diag.onOk = reply;
+	if(fromUser!="SYSTEM"){
+		diag.okText = "<z:lang id='Platform.Reply'>回复</z:lang>";
+	}else{
+		diag.onOk ="";
+	}
+	diag.show();
+	DataGrid.loadData("dg1");
+	if(parent.getNewMessageCount != undefined){
+		parent.getNewMessageCount();
+	}
+}
+
+function del(){
+	var arr = DataGrid.getSelectedValue("dg1");
+	if(!arr||arr.length==0){
+		Dialog.alert("<z:lang id='Common.PleaseSelectRowFirst'>请先选择一条记录</z:lang>");
+		return;
+	}
+	Dialog.confirm("<z:lang id='Common.ConfirmDelete'>确认删除</z:lang>",function(){
+		var dc = new DataCollection();
+		dc.add("IDs",arr.join());
+		dc.add("UserType","ToUser");
+		Server.sendRequest("Message.del",dc,function(response){
+			if(response.Status==1){
+				MsgPop(response.Message);
+				DataGrid.loadData("dg1");
+				if(parent.getNewMessageCount != undefined){
+					parent.getNewMessageCount();
+				}
+			}else{
+				Dialog.alert(response.Message);
+			}
+		});
+	});
+}
+
+function setReadFlag(){
+	var arr = DataGrid.getSelectedValue("dg1");
+	if(!arr||arr.length==0){
+		Dialog.alert("<z:lang id='Common.PleaseSelectRowFirst'>请先选择一条记录</z:lang>");
+		return;
+	}
+	var dc = new DataCollection();
+	dc.add("IDs",arr.join());
+	Server.sendRequest("Message.setReadFlag",dc,function(response){
+		Dialog.alert(response.Message);
+		if(response.Status==1){
+			DataGrid.loadData("dg1");
+		}
+	});
+}
+
+setInterval(function(){DataGrid.loadData("dg1");},10000);
+</script>
+</head>
+<z:init method="Message.init">
+<body class="z-body-detail">
+	<table width="100%" id="js_layoutTable" border="0" cellspacing="0"
+		cellpadding="0" height="*" class="js_layoutTable">
+		<tr>
+			<td height="33"><z:toolbar theme="flat">
+				<z:button onClick="add()" theme="flat">
+					<img src="../../Icons/icon028a2.png" /><z:lang id="Common.New">新建</z:lang></z:button>
+				<z:button onClick="reply()" theme="flat">
+					<img src="../../Icons/icon028a4.png" /><z:lang id="Platform.Reply">回复</z:lang></z:button>
+				<z:button onClick="del()" theme="flat">
+					<img src="../../Icons/icon028a3.png" /><z:lang id="Common.Delete">删除</z:lang></z:button>
+				<z:button onClick="setReadFlag()" theme="flat">
+					<img src="../../Icons/icon034a4.png" /><z:lang id="Platform.MarkToReaded">标记为己读</z:lang></z:button>
+				<z:button onClick="messageHistory()" theme="flat">
+					<img src="../../Icons/icon028a7.png" /><z:lang id="Platform.SendedMessage">已发消息</z:lang></z:button>
+			</z:toolbar></td>
+		</tr>
+		<tr>
+			<td height="*" style="padding: 7px;"><z:datagrid id="dg1" method="Message.dg1DataBind" size="13">
+				<table width="100%" cellpadding="0" cellspacing="0" class="z-datagrid">
+					<tr ztype="head" class="dataTableHead">
+						<td width="3%" ztype="RowNo">&nbsp;</td>
+						<td width="3%" ztype="selector" field="id">&nbsp;</td>
+						<td width="3%">&nbsp;</td>
+						<td width="50%" sortField="subject"><z:lang id="Platform.Title">标题</z:lang></td>
+						<td width="8%"><z:lang id="Platform.Operation">操作</z:lang></td>
+						<td width="12%" sortField="fromuser"><z:lang id="Platform.Sender">发送人</z:lang></td>
+						<td width="15%" sortField="addtime" direction="DESC"><z:lang id="Platform.SendTime">发送时间</z:lang></td>
+					</tr>
+					<tr onDblClick="messageDetail('${FromUser}');">
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>${ReadFlagIcon}</td>
+						<td>${Subject}</td>
+						<td>${RedirectURL}</td>
+						<td>${FromUser}</td>
+						<td>${addTime}</td>
+					</tr>
+					<tr ztype="pagebar">
+						<td colspan="7" align="center">${PageBar}</td>
+					</tr>
+				</table>
+			</z:datagrid></td>
+		</tr>
+	</table>
+	</body>
+</z:init>
+</html>

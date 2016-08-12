@@ -1,0 +1,79 @@
+<%@ taglib uri="controls" prefix="z"%>
+<z:init>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title></title>
+<link href="../../Style/Default.css" rel="stylesheet" type="text/css" />
+<script src="../Main.js"></script>
+<script>
+var id = "${ID}";
+var lang = "${User.Language}";
+Zving.Page.onReady(function(){
+	 setValues();
+	 if(dialogOpener.Zving.getDom(id).disabled){
+	 	Zving.getByName("Values").each(function(ele){$(ele).disable();});
+	 	z.Node.hide(dialogOpener.$D.okButton);
+	 }
+});
+
+function setValues(){
+	var str = dialogOpener.Zving.$V(id+"_I18N");
+	var targetValue = dialogOpener.Zving.$V(id);
+ 	str = unescape(str);
+	if(str.startsWith("${")&&str.endsWith("}")){
+		str = "";//说明没有值
+	}
+	if(str.startsWith("@Lang\n")){
+		var arr = str.substring(6).split(/\n/);
+		for(var i=0;i<arr.length;i++){
+			var k = arr[i];
+			if(k.indexOf("=")<1){
+				continue;
+			}
+			var v = k.substring(k.indexOf("=")+1);
+			k = k.substring(0,k.indexOf("="));
+			if(k==lang){
+				v = targetValue;//反映最新的修改情况
+			}
+			Zving.$S(id+"_"+k,v);
+		}
+	}else{
+ 		Zving.$S(id+"_"+lang,targetValue);
+	}	
+}
+
+function getLangString(){
+		var arr = Zving.getByName("Values");
+		var r = ["@Lang"];
+		for(var i=0;i<arr.length;i++){
+			var k = arr[i].id;
+			if(k.length<=id.length){
+				continue;
+			}
+			k = k.substring(id.length+1);
+			r.push(k+"="+arr[i].value);
+		}
+		return escape(r.join("\n"));
+}
+
+function getCurrentLangValue(){
+	return Zving.$V(id+"_"+lang);	
+}
+</script>
+</head>
+<body class="dialogBody">
+ <table width="100%" border="0" height="100%"><tr><td align="center" valign="middle">
+<table width="700" border="0" align="center" style="valign:middle">
+	<z:list method="com.zving.framework.i18n.LangButtonUI.bindLanguageList">
+	  <tr>
+	    <td height="25" style="text-align:right;padding:3px">${Name}：</td>
+	    <td style="padding:3px"><textarea id="${ID}_${Key}" name="Values" class="inputText" style="height:40px;width:500px"></textarea></td>
+	  </tr>
+	</z:list>
+</table>
+</td></tr></table>
+</body>
+</html>
+</z:init>

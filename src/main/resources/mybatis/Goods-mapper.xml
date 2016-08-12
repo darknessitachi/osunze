@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goods">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		supplierId,
+		(select name from supplier where id=goods.supplierId) as supplierName,
+		(select codename from code where parentCode='Brand' and codeType=brand ) as brand,
+		(select codename from code where parentCode='GoodsType' and codeType=goodType ) as goodType,
+		model,
+		unit,
+		origin,
+		color,
+		barcode,
+		weight,
+		sizeLong,
+		sizeWidth,
+		sizeHeight,
+		material,
+		level,
+		description,
+		retailPrice
+	</sql>
+
+	<select id="query" resultType="Goods" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from goods
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+
+	<select id="count" parameterType="Goods" resultType="int">
+		select count(0) from goods
+	</select>
+	
+	<insert id="add">
+		insert into goods(supplierId,brand,goodType,model,unit,origin,color,barcode,weight,sizelong,sizewidth,sizeheight,material,level,description,retailPrice) 
+			values(#{supplierId},#{brand},#{goodType},#{model},#{unit},#{origin},#{color},#{barcode},#{weight},#{sizeLong},#{sizeWidth},#{sizeHeight},#{material},#{level},#{description},#{retailPrice})
+	</insert>
+	
+	<update id="update" parameterType="Goods">
+		update goods set
+			supplierId=#{supplierId},
+			brand=#{brand},
+			goodType=#{goodType},
+			model = #{model},
+			unit  = #{unit},
+			origin = #{origin},
+			color = #{color},
+			barcode = #{barcode},
+			weight = #{weight},
+			sizelong = #{sizeLong},
+			sizewidth = #{sizeWidth},
+			sizeheight = #{sizeHeight},
+			material = #{material},
+			level = #{level},
+			description = #{description},
+			retailPrice = #{retailPrice}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="String">
+		delete from goods where id=#{id}
+	</delete>
+	
+	<select id="getById" parameterType="String" resultType="Goods">
+		select id,
+		supplierId,
+		brand,
+		goodType,
+		model,
+		unit,
+		origin,
+		color,
+		barcode,
+		weight,
+		sizeLong,
+		sizeWidth,
+		sizeHeight,
+		material,
+		level,
+		description,
+		retailPrice 
+		from goods where id=#{id}
+	</select>
+	
+	<select id="queryByCondition" parameterType="Goods" resultType="Goods">
+		select id,
+		supplierId,
+		brand,
+		goodType,
+		model,
+		unit,
+		origin,
+		color,
+		barcode,
+		weight,
+		sizeLong,
+		sizeWidth,
+		sizeHeight,
+		material,
+		level,
+		description,
+		retailPrice 
+		from goods 
+		<where>
+		1 = 1
+			<if test="supplierId != null and supplierId != ''">
+				and supplierId = '${supplierId}'
+			</if>
+			<if test="model != null and model != ''">
+				and model = '${model}'
+			</if>
+		</where>
+	</select>
+	
+</mapper>

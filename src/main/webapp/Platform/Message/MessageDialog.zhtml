@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@include file="../../Include/Init.zhtml"%>
+<%@ taglib uri="controls" prefix="z"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title></title>
+<link href="../../Style/Default.css" rel="stylesheet" type="text/css" />
+
+<script src="../../Framework/Main.js"></script>
+<script>
+function selectUser() {
+	var diag = new Dialog();
+	diag.width = 800;
+	diag.height = 450;
+	diag.title = "<z:lang id='Branch.SelectUser'>选择用户</z:lang>";
+	var selecteduser = $V("ToUser");
+	diag.url = "../UserSelectDialog.zhtml?SelectedUsers="+selecteduser;
+	diag.onOk = function(){
+		var users = $DW.getSelectedUsers();
+		$S("ToUser", users);
+		$D.close();	
+	};
+	diag.show();
+}
+
+function addUser(){
+	var arr = $DW.DataGrid.getSelectedValue("dg1");
+	if(!arr||arr.length==0){
+		Dialog.alert("<z:lang id="Common.PleaseSelectRowFirst">请先选择一条记录</z:lang>！");
+		return;
+	}
+	var users = new Array();
+	if($V('#ToUser')!=""){
+		users = $('#ToUser').val().split(",");
+		for(var i=0;i<users.length;i++){
+			for(var j=0;j<arr.length;j++){
+				if(users[i]==arr[j]){
+					arr.splice(j,1);
+				}
+			}
+		}
+	}
+	users = users.concat(arr);
+	$('#ToUser').val(users.join());
+	$D.close();
+}
+
+function selectRole(){
+	var diag = new Dialog("Role");
+	diag.url = "../RoleSelectDialog.zhtml?SelectedRoles="+$V("ToRole");
+	diag.width = 510;
+	diag.height = 300;
+	diag.title = "<z:lang id='Platform.SelectRole'>选择角色</z:lang>";
+	diag.onOk = function(){		
+		var codes = $DW.getSelectedRoles();
+		$S("ToRole", codes);
+		$D.close();
+	}
+	diag.show();
+}
+
+</script>
+<link href="../Style/Default.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dialogBody">
+<form id="formMsg">
+<table width="100%" border="0" cellpadding="4" cellspacing=""
+	bordercolor="#DEDEDC" style="border-collapse:collapse;">
+	<tr>
+		<td width="72" height="15"></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><z:lang id="Platform.接收人接收人">接收人</z:lang>：</td>
+		<td width="325">
+			<input id="ToUser" type="text" style="width:230px"/> 
+			<input type="button" id="chooseUser"
+			name="chooseUser" value="<z:lang id="Platform.SelectButton">选择</z:lang>.." onClick="selectUser()"></td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><z:lang id="Platform.ReceiverRole">接收角色</z:lang>：</td>
+		<td width="325">
+			<input id="ToRole" type="text" style="width:230px"/> 
+			<input type="button" id="chooseRole" value="<z:lang id="Platform.SelectButton">选择</z:lang>.." onClick="selectRole()"></td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><z:lang id="Platform.Title">标题</z:lang>：</td>
+		<td width="325"><input id="Subject" type="text" style="width:290px" verify="NotNull" /></td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><z:lang id="Platform.Content">内容</z:lang>：</td>
+		<td><textarea id="Content" style="width:290px" rows="6" verify="NotNull" /></textarea></td>
+	</tr>
+	<tr></tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="permission">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		name,
+		parentId,
+		type,
+		resUrl,
+		description
+	</sql>
+	
+	<select id="query" resultType="Permission" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from permission where type=0
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+	
+	<select id="count" parameterType="Permission" resultType="int">
+		select count(0) from permission where type=0
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="add" parameterType="Permission">
+		insert into permission(
+					name,
+					resUrl,
+					parentId,
+					type,
+					description) 
+		values(#{name},
+				#{resUrl},
+				#{parentId},
+				#{type},
+				#{description})
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="Permission">
+	    update permission set name = #{name},resUrl = #{resUrl},description = #{description} where id = #{id}
+	</update>
+	
+	<select id="getById" parameterType="String" resultType="Permission">
+		select 
+		<include refid="selectId" />
+		 from permission where id=#{id}
+	</select>
+	
+	<!-- 查询所有目录 -->
+	<select id="queryAllMenus" resultType="Permission">
+		select 
+		<include refid="selectId" />
+		 from permission where type=0 or type=1
+	</select>
+	
+	<select id="queryAllRootMenus" resultType="Permission">
+		select 
+		<include refid="selectId" />
+		 from permission where parentId=0
+	</select>
+	
+	<!-- 根据目录得到目录下的菜单 -->
+	<select id="queryMenusByDirectoryId" parameterType="int" resultType="Permission">
+		select 
+		<include refid="selectId" />
+		 from permission where parentId=#{id}
+	</select>
+	
+	<select id="queryAuthsByRoleId" resultType="int" parameterType="int">
+		select p.id from roles_permissions rp,permission p where p.id=rp.permission_id and rp.role_id=#{id}
+	</select>
+	
+	
+	<delete id="deleteById" parameterType="String">
+		delete from permission where id=#{id}
+	</delete>
+</mapper>

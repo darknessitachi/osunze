@@ -1,0 +1,147 @@
+SysInfo.AppInfo=Application Info
+SysInfo.BasicSoftwareInfo=Basic Software Info
+SysInfo.DBInfo=Database Info
+SysInfo.LanguageInfo=Language Info
+SysInfo.CurrentLanguage=Current Language
+SysInfo.SupportedLanguages=Suppported Languages
+
+Common.Item=Item
+Common.Value=Value
+Common.UserName=UserName
+Common.Password=Password
+Common.Memo=Memo
+Common.Search=Search
+Common.Add = Add
+Common.AddFailed=Add failed
+Common.AddSuccess=Add success
+Common.New=New
+Common.Modify=Modify
+Common.ModifyFailed=Edit failed
+Common.ModifySuccess=Edit success
+Common.Refresh = Refresh
+Common.Delete=Delete
+Common.DeleteFailed=Delete failed
+Common.DeleteSuccess=Delete success
+Common.AddOrUpdateFailed = Update failed
+Common.PleaseSelectOnlyOneRecord = Please Select a Record First! 
+Common.PleaseSelectOneRowAtLeast = Please Select a record! 
+Common.UserNameOrPasswordWrong=Username or password is wrong!
+Common.UserNameNotFound =Username isn't exist!
+Common.NewPassword=New password
+Common.OldPassword=Old password
+Common.ConfirmNewPassword=Confirm new password
+Common.WrongOldPassword=Old password is wrong!
+Common.ChangePwdSuccess=Change Password success!
+Common.ConfirmDelete=Are you sure to delete?
+Common.Hours ＝ Hours
+Common.Months ＝ Months
+Common.Days ＝ Days
+Common.Status ＝ Status
+Common.QQ = QQ
+
+Platform.AppName = Skycity
+Platform.Language=Language
+Platform.Theme=Theme
+Platform.BlueTheme=Classic Blue
+Platform.GreenTheme=Fresh Green
+Platform.DarkTheme=Elegant Dark
+Platform.RedTheme=Noble Red
+Platform.PurpleTheme=Grace Purple
+Platform.LoginButton=Login
+Platform.WelcomeLogin=Welcome to
+Platform.LoginSuccess=Login Success!
+Platform.LogoutSuccess=Logout Success!
+Platform.loadPageMsg = Loading...Please Wait a Moment
+Platform.loadDataMsg = Data Loading...
+Platform.WelcomeUse = Welcome To Use
+Platform.NaviMenu = Navigator
+Platform.Pagination.BeforePageText = Current Page:
+Platform.Pagination.afterPageText = ,Total{pages} Pages
+Platform.Pagination.displayMsg=Current Display {from} - {to} records,total {total} records
+
+Login.InputUserNameOrPassword=Please input username and password
+Login.Copyright=Copyright &copy; 2007-2015 *** Inc. 
+
+Application.CurrentUser=Current User
+Application.ChangePassword=Change Password
+Application.Message=Message
+Application.Logout=Logout
+Application.LogoutConfirm=Are you sure to logout?
+
+SysInfo.Title=System Info
+SysInfo.OSName=OS name
+SysInfo.OSVersion=OS version
+SysInfo.JDKVendor=JDK vendor
+SysInfo.JDKVersion=JDK version
+SysInfo.JDKHome=JDK home
+SysInfo.ContainerName=Servlet container name
+SysInfo.FileEncoding=File encoding
+SysInfo.AppCode=App Code
+SysInfo.AppName=App Name
+SysInfo.AppVersion=App Version
+SysInfo.DBName = DB Name
+
+Menu.Title = Menu Manager
+Menu.addMenu = Add Menu
+Menu.updateMenu = Edit Menu
+Menu.Name = Menu Name
+Menu.ParentMenu = Parent menu
+Menu.refResource = 关联资源
+
+Resources = Resources 
+Resources.Manager = Resources Manager
+Resources.SearchTip = Please Input Search Resources Name
+Resources.Name = Resources Name
+Resources.URL = 资源入口
+Resources.Desc = Resources Desc
+Resources.Key = Resources Key
+Resources.SelectedResourceList = Selected Resources List
+Resources.AddSelectedResource = Add Selected
+Resources.RemoveSelectedResource ＝ Remove Selected
+Resources.New = Add Resources
+Resources.Update = Update Resources
+
+Code = Code 
+Code.Title=Code Manager
+Code.addCode=Add Code
+Code.UpdateCode=Edit Code
+Code.CodeType=Code Type
+Code.CodeName=Code Name
+Code.EditList = Edit Code Item
+Code.SearchTip=Please Input Code Name or Type
+Code.addCodeItem = New Code Item
+Code.ItemValue = Item Value
+Code.ItemName = Item Name
+Code.HaveSameCode ＝ It's Have Same Code Value
+
+Cron.Title = Schedule
+Cron.List = Schedule List
+Cron.Manual = Manual
+Cron.Type = Type
+Cron.Name = Task name
+Cron.Status = Enable?
+Cron.NextExecuteTime = Next Execute Time
+Cron.Description = Description
+Cron.New = New Cron Task
+Cron.NewMessage =Select a task and Config cron plan.
+Cron.TaskType = Task Type
+Cron.SelectTask = Select Task
+Cron.StartTime = Start Time
+Cron.Period = Execution Interval
+Cron.Per = Per
+Cron.UseCronExpr = Use Cron Expression
+
+Supplier = Supplier 
+Supplier.Title = Supplier Manager
+Supplier.Name = Supplier Name
+Supplier.Contacts = Contancts
+Supplier.Phone = Phone
+Supplier.Email = Email
+Supplier.Address = Address
+Supplier.AddSupplier = Add Supplier
+Supplier.UpdateSupplier = Edit Supplier
+Supplier.SearchTip = Input Supplier Name Contancts here
+Supplier.WebSite = WebSite
+
+Customer.Title = 客户信息
+

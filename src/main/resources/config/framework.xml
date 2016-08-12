@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--应用框架配置-->
+<framework>
+	<application>
+		<config name="Code">O'SunZe</config>	<!--应用代码-->
+		<config name="Name">沃.盛泽橱柜</config>	<!--应用名称-->
+		<config name="MainVersion">1.0</config>	<!-- 主要版本 -->
+		<config name="MinorVersion">0.1</config>	<!-- 小版本号 -->
+		<config name="GlobalCharset">UTF-8</config>		<!-- 全局字符集 -->
+	</application>
+</framework>
