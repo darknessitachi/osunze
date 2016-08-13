@@ -229,5 +229,6 @@ Role.RoleMenuManager=菜单权限
 
 Customer.name=姓名
 Customer.add=添加客户信息
+Customer.update=修改客户信息
 Customer.comefrom=来源
 Customer.visitDate=来访日期

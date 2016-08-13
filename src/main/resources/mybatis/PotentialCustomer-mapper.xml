@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="potentialcustomer">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		name,
+		sex,
+		mobile,
+		email,
+		qq,
+		webChat,
+		comeFrom,
+		visitDate,
+		address,
+		description
+	</sql>
+
+	<select id="query" resultType="potentialCustomer" parameterType="java.util.HashMap">
+		select * from (select
+		<include refid="selectId" />
+		from potentialcustomer
+		) a limit ${paging.first},${paging.pageSize}
+	</select>
+
+	<select id="count" resultType="int">
+		select count(0) from potentialcustomer
+	</select>
+	
+	
+	<insert id="add">
+		insert into potentialcustomer(name,sex,mobile,email,qq,webChat,comefrom,visitDate,address,description) 
+			values(#{name},#{sex},#{mobile},#{email},#{qq},#{webChat},#{comeFrom},#{visitDate},#{address},#{description})
+	</insert>
+	
+	<select id="getById" parameterType="String" resultType="potentialCustomer">
+		select
+		<include refid="selectId" />
+		from potentialcustomer where id=#{id}
+	</select>
+	
+	<update id="update" parameterType="Goods">
+		update potentialcustomer set
+			name=#{name},
+			sex=#{sex},
+			mobile=#{mobile},
+			email = #{email},
+			qq  = #{qq},
+			webChat = #{webChat},
+			comeFrom = #{comeFrom},
+			visitDate = #{visitDate},
+			address = #{address},
+			description = #{description}
+		where id=#{id}
+	</update>
+</mapper>
