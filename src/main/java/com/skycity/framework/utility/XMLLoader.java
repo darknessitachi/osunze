@@ -50,6 +50,7 @@ public class XMLLoader {
     private Treex<NodeData> tree = new Treex<NodeData>();
     
     public void load(String path) {
+    	LogUtil.info("加载配置文件");
         File f = new File(path);
         if(f.exists()){
         	load(f);

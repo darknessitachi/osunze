@@ -6,6 +6,7 @@ SysInfo.CurrentLanguage=当前语言
 SysInfo.SupportedLanguages=系统支持的语言
 
 
+Common.Address=地址
 Common.Item=项
 Common.Value=值
 Common.UserName=用户名
@@ -40,6 +41,8 @@ Common.Months=月
 Common.Days=天
 Common.Status=状态
 Common.QQ=QQ
+Common.Email=Email
+Common.WebChat=微信
 Common.Long=长
 Common.Width=宽
 Common.Height=高
@@ -49,6 +52,7 @@ Common.Price=价格
 Common.Mile=米
 Common.Pieces=个
 Common.Manager=管理
+Common.Description=描述
 
 Platform.AppName=沃.盛泽厨柜
 Platform.Language=语言
@@ -222,3 +226,8 @@ Order.ShowOrderDetail=查看订单详情
 Role.Name=角色名称
 Role.Assignpermissions=权限分配
 Role.RoleMenuManager=菜单权限
+
+Customer.name=姓名
+Customer.add=添加客户信息
+Customer.comefrom=来源
+Customer.visitDate=来访日期

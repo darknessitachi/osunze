@@ -17,6 +17,7 @@
 		<typeAlias type="com.skycity.entity.Customer" alias="customer"/>	<!-- 顾客 -->
 		<typeAlias type="com.skycity.entity.Order" alias="order"/>			<!-- 订单 -->
 		<typeAlias type="com.skycity.entity.OrderDetail" alias="orderDetail"/>			<!-- 订单详情 -->
+		<typeAlias type="com.skycity.entity.PotentialCustomer" alias="potentialCustomer"/>			<!-- 潜在顾客信息 -->
 		
 		<typeAlias type="com.skycity.framework.collection.Mapx" alias="mapx"/>
 		<!--

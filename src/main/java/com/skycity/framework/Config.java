@@ -1,6 +1,7 @@
 package com.skycity.framework;
 
 import com.skycity.framework.collection.Mapx;
+import com.skycity.framework.utility.LogUtil;
 import com.skycity.framework.utility.URLUtil;
 import com.skycity.framework.utility.XMLLoader;
 
@@ -15,6 +16,7 @@ public class Config {
 	protected static void init(){
 		if (!configMap.containsKey("System.JavaVersion")) {
 			loader.load();
+			LogUtil.info("加载系统信息");;
 			configMap.put("System.OSUserLanguage",System.getProperty("user.language")); // 获取系统语言
 			configMap.put("System.OSUserName", System.getProperty("user.name")); // 用户账户名称
 			configMap.put("System.LineSeparator",System.getProperty("line.separator")); // 换行分隔符
