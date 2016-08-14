@@ -50,8 +50,6 @@ public class PotentialCustomerController extends UIFacade<PotentialCustomer> {
 		page.setPageSize(Integer.parseInt(pageSize));
 		page.setPageNo(Integer.parseInt(pageIndex));
 		PotentialCustomer entity = new PotentialCustomer();
-//		qrcode.setQrCode($V("qrCode"));
-//		qrcode.setParentCode($V("parentCode"));
 		PageInfo<PotentialCustomer> pageInfo = potentialCustomerService.query(page, entity);
 		String jsonStr = JsonUtil.bean2json(pageInfo);
 		response.getWriter().write(jsonStr);
