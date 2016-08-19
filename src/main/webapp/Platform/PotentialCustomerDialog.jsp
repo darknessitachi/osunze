@@ -15,7 +15,7 @@ Page.onReady(function(){
 </head>
 <body class="dialogBody">
 <form:form action="" id="form2" method="post" commandName="potentialCustomer">
-<form:input path="id"/>
+<form:hidden path="id"/>
 <table align="center" cellpadding="2" cellspacing="0">
     <tr>
       <td height="30" align="right"><z:lang id="Customer.name"/>：</td>
